@@ -1,21 +1,16 @@
-package dev.petermurphy.picturehaven.picturehaven
+package dev.petermurphy.picturehaven.picture;
 
-import org.springframework.data.annotation.Id;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Positive;
-
-//import java.time.LocalDateTime;
-
-/* The Java compiler automatically generates essential methods for records, 
-	including constructors, getters, equals(), hashCode(), and toString()*/
+import org.springframework.data.annotation.Id;
+	
 public record Picture(
 	@Id
 	Integer id,
 	@NotEmpty
 	String title,
-	String description
-	// LocalDateTime upddate
-	// LocalDateTime insdate
+	String description,
+	@NotEmpty
+	String filepath
 ){
 	// record methods
 }
