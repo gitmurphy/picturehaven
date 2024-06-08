@@ -16,6 +16,4 @@ public interface PictureRepository {
     void delete(Integer id);
 
     long count();
-
-    void save(Picture picture);
 }

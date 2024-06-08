@@ -17,7 +17,7 @@ public class JdbcPictureRepository implements PictureRepository {
     }
 
     public List<Picture> findAll() {
-        return jdbcClient.sql("select * from pictures")
+        return jdbcClient.sql("SELECT * FROM pictures")
                 .query(Picture.class)
                 .list();
     }
@@ -30,7 +30,7 @@ public class JdbcPictureRepository implements PictureRepository {
     }
 
     public void create(Picture picture) {
-        var updated = jdbcClient.sql("INSERT INTO pictures(title,description,filepath) values(?,?,?)")
+        var updated = jdbcClient.sql("INSERT INTO pictures(title,description,filepath) VALUES(?,?,?)")
                 .params(List.of(picture.title(),picture.description(),picture.filepath()))
                 .update();
 
@@ -38,7 +38,7 @@ public class JdbcPictureRepository implements PictureRepository {
     }
 
     public void update(Picture picture, Integer id) {
-        var updated = jdbcClient.sql("update pictures set title = ?, description = ?, filepath = ? where id = ?")
+        var updated = jdbcClient.sql("UPDATE pictures SET title = ?, description = ?, filepath = ? WHERE id = ?")
                 .params(List.of(picture.title(),picture.description(),picture.filepath(), id))
                 .update();
 
@@ -46,7 +46,7 @@ public class JdbcPictureRepository implements PictureRepository {
     }
 
     public void delete(Integer id) {
-        var updated = jdbcClient.sql("delete from pictures where id = ?")
+        var updated = jdbcClient.sql("DELETE FROM pictures where id = ?")
                 .params(List.of(id))
                 .update();
 
@@ -54,14 +54,6 @@ public class JdbcPictureRepository implements PictureRepository {
     }
 
     public long count() {
-        return jdbcClient.sql("select * from pictures").query().listOfRows().size();
-    }
-
-    public void saveAll(List<Picture> pictures) {
-        pictures.stream().forEach(this::create);
-    }
-
-    public void save(Picture picture) {
-        create(picture);
+        return jdbcClient.sql("SELECT * FROM pictures").query().listOfRows().size();
     }
 }

@@ -32,7 +32,7 @@ public class PictureController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
     void create(@Valid @RequestBody Picture picture) {
-        pictureRepository.save(picture);
+        pictureRepository.create(picture);
     }
 
 	@PutMapping("/{id}")
