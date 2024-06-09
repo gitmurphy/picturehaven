@@ -7,6 +7,8 @@ public interface PictureRepository {
 
     List<Picture> findAll();
 
+    List<Picture> findAllByArtist(Integer artist);
+
     Optional<Picture> findById(Integer id);
 
     void create(Picture picture);

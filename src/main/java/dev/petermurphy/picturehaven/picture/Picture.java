@@ -10,7 +10,8 @@ public record Picture(
 	String title,
 	String description,
 	@NotEmpty
-	String filepath
+	String filepath,
+	Integer artist
 ){
 	// record methods
 }

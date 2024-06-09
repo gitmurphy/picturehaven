@@ -22,24 +22,31 @@ public class JdbcPictureRepository implements PictureRepository {
                 .list();
     }
 
+    public List<Picture> findAllByArtist(Integer artist) {
+        return jdbcClient.sql("SELECT * FROM pictures WHERE artist = :artist")
+                .param("artist", artist)
+                .query(Picture.class)
+                .list();
+    }
+
     public Optional<Picture> findById(Integer id) {
-        return jdbcClient.sql("SELECT id,title,description,filepath FROM pictures WHERE id = :id")
+        return jdbcClient.sql("SELECT id,title,description,filepath,artist FROM pictures WHERE id = :id")
                 .param("id", id)
                 .query(Picture.class)
                 .optional();
     }
 
     public void create(Picture picture) {
-        var updated = jdbcClient.sql("INSERT INTO pictures(title,description,filepath) VALUES(?,?,?)")
-                .params(List.of(picture.title(),picture.description(),picture.filepath()))
+        var updated = jdbcClient.sql("INSERT INTO pictures(title,description,filepath,artist) VALUES(?,?,?,?)")
+                .params(List.of(picture.title(),picture.description(),picture.filepath(),picture.artist()))
                 .update();
 
         Assert.state(updated == 1, "Failed to create run " + picture.title());
     }
 
     public void update(Picture picture, Integer id) {
-        var updated = jdbcClient.sql("UPDATE pictures SET title = ?, description = ?, filepath = ? WHERE id = ?")
-                .params(List.of(picture.title(),picture.description(),picture.filepath(), id))
+        var updated = jdbcClient.sql("UPDATE pictures SET title = ?, description = ?, filepath = ?, artist = ? WHERE id = ?")
+                .params(List.of(picture.title(),picture.description(),picture.filepath(),picture.artist(), id))
                 .update();
 
         Assert.state(updated == 1, "Failed to update pictures " + picture.title());
