@@ -18,4 +18,8 @@ public interface PictureRepository {
     void delete(Integer id);
 
     long count();
+	
+	List<Integer> findTagsByPicture(Integer id);
+
+    void addTagToPicture(Integer pictureId, Integer tagId);
 }

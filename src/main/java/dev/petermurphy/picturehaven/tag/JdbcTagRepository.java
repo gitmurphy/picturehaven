@@ -1,5 +1,6 @@
 package dev.petermurphy.picturehaven.tag;
 
+import dev.petermurphy.picturehaven.picture.Picture;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
@@ -47,5 +48,12 @@ public class JdbcTagRepository implements TagRepository {
 
     public long count() {
         return jdbcClient.sql("SELECT * FROM tags").query().listOfRows().size();
+    }
+
+    public List<Integer> findPicturesByTag(Integer id) {
+        return jdbcClient.sql("SELECT picture FROM picture_tags WHERE tag = :id")
+                .param("id", id)
+                .query(Integer.class)
+                .list();
     }
 }

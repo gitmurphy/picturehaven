@@ -14,4 +14,6 @@ public interface TagRepository {
     void delete(Integer id);
 
     long count();
+
+    List<Integer> findPicturesByTag(Integer id);
 }

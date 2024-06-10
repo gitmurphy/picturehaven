@@ -63,4 +63,19 @@ public class JdbcPictureRepository implements PictureRepository {
     public long count() {
         return jdbcClient.sql("SELECT * FROM pictures").query().listOfRows().size();
     }
+	
+	public List<Integer> findTagsByPicture(Integer id) {
+        return jdbcClient.sql("SELECT tag FROM picture_tags WHERE picture = :id")
+                .param("id", id)
+                .query(Integer.class)
+                .list();
+    }
+
+    public void addTagToPicture(Integer pictureId, Integer tagId) {
+        var updated = jdbcClient.sql("INSERT INTO picture_tags(picture,tag) VALUES(?,?)")
+                .params(List.of(pictureId,tagId))
+                .update();
+
+        Assert.state(updated == 1, "Failed to add tag to picture " + pictureId);
+    }
 }
