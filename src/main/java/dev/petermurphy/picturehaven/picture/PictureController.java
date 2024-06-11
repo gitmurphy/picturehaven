@@ -1,13 +1,20 @@
 package dev.petermurphy.picturehaven.picture;
 
+import dev.petermurphy.picturehaven.service.PictureService;
 import dev.petermurphy.picturehaven.tag.Tag;
 import dev.petermurphy.picturehaven.tag.TagRepository;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -72,5 +79,22 @@ public class PictureController {
 	@PostMapping("/{pictureId}/tags/{tagId}")
 	void addTagToPicture(@PathVariable Integer pictureId, @PathVariable Integer tagId) {
 		pictureRepository.addTagToPicture(pictureId, tagId);
+	}
+
+	@ResponseStatus(HttpStatus.OK)
+	@GetMapping("/colors/{id}")
+	Map<Color, Integer> getDominantColorsById(@PathVariable Integer id) throws IOException {
+		BufferedImage image = null;
+		String filePath = pictureRepository.findById(id).get().filepath();
+		try {
+			image = ImageIO.read(new File("src/main/java/dev/petermurphy/picturehaven/picture" + filePath));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return getDominantColors(image, 5);
+	}
+
+	Map<Color, Integer> getDominantColors(BufferedImage image, Integer maxCount) {
+		return PictureService.getDominantColors(image, maxCount);
 	}
 }
