@@ -22,34 +22,41 @@ public class TagController {
         this.pictureRepository = pictureRepository;
     }
 
+    // fully qualified names are required here because of ambiguity with the Tag class
+    @io.swagger.v3.oas.annotations.tags.Tag(name = "get", description = "Retrieves a list of all tags.")
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("")
     List<Tag> findAll() {
         return tagRepository.findAll();
     }
 
+    @io.swagger.v3.oas.annotations.tags.Tag(name = "get", description = "Retrieves a tag by its ID.")
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
     Optional<Tag> findById(@PathVariable Integer id) {
         return tagRepository.findById(id);
     }
 
+    @io.swagger.v3.oas.annotations.tags.Tag(name = "post", description = "Creates a new tag.")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
     void create(@Valid @RequestBody Tag tag) {
         tagRepository.create(tag);
     }
 
+    @io.swagger.v3.oas.annotations.tags.Tag(name = "delete", description = "Deletes a tag.")
     @DeleteMapping("/{id}")
     void delete(@PathVariable Integer id) {
         tagRepository.delete(id);
     }
 
+    @io.swagger.v3.oas.annotations.tags.Tag(name = "get", description = "Returns the total number of tags.")
     @GetMapping("/count")
     long count() {
         return tagRepository.count();
     }
 
+    @io.swagger.v3.oas.annotations.tags.Tag(name = "get", description = "Get pictures associated with a specific tag.")
     @GetMapping("/pictures/{id}")
     List<Picture> findPicturesByTag(@PathVariable Integer id) {
         List<Integer> pictureIds = tagRepository.findPicturesByTag(id);
@@ -63,6 +70,7 @@ public class TagController {
         return pictures;
     }
 
+    @io.swagger.v3.oas.annotations.tags.Tag(name = "get", description = "Get tags associated with a specific picture.")
     @GetMapping("/picturetags/{id}")
     List<Tag> findTagsByPicture(@PathVariable Integer id) {
         List<Integer> tagIds = pictureRepository.findTagsByPicture(id);

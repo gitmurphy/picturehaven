@@ -25,45 +25,53 @@ public class PictureController {
 		this.pictureRepository = pictureRepository;
 	}
 
+	@Tag(name = "get", description = "Retrieves a list of all pictures.")
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping("")
 	List<Picture> findAll() {
 		return pictureRepository.findAll();
 	}
 	
+	@Tag(name = "get", description = "Retrieves a picture by its ID.")
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping("/{id}")
 	Optional<Picture> findById(@PathVariable Integer id) {
 		return pictureRepository.findById(id);
 	}
 	
+	@Tag(name = "post", description = "Creates a new picture.")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
     void create(@Valid @RequestBody Picture picture) {
         pictureRepository.create(picture);
     }
 
+	@Tag(name = "put", description = "Updates an existing picture.")
 	@PutMapping("/{id}")
 	void update(@PathVariable Integer id, @Valid @RequestBody Picture picture) {
 		pictureRepository.update(picture, id);
 	}
 
+	@Tag(name = "delete", description = "Deletes a picture.")
 	@DeleteMapping("/{id}")
 	void delete(@PathVariable Integer id) {
 		pictureRepository.delete(id);
 	}
 
+	@Tag(name = "get", description = "Returns the total number of pictures.")
 	@GetMapping("/count")
 	long count() {
 		return pictureRepository.count();
 	}
 
+	@Tag(name = "post", description = "Add a tag to a picture.")
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping("/{pictureId}/tags/{tagId}")
 	void addTagToPicture(@PathVariable Integer pictureId, @PathVariable Integer tagId) {
 		pictureRepository.addTagToPicture(pictureId, tagId);
 	}
 
+	@Tag(name = "get", description = "Analyzes the image file associated with a picture and returns its dominant colors.")
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping("/colors/{id}")
 	Map<Color, Integer> getDominantColorsById(@PathVariable Integer id) throws IOException {

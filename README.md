@@ -93,6 +93,7 @@ _Note: The API endpoints are documented using Swagger. To access the documentati
 
 * GET /api/tags/pictures/{id}: Get pictures associated with a specific tag.
 * POST /api/pictures/{pictureId}/tags/{tagId}: Add a tag to a picture.
+* GET /api/tags/picturetags/{id}: Get tags associated with a specific picture.
 
 ### Extracting Dominant Colors
 The /api/pictures/colors/{id} endpoint communicates with a feature to analyse an image file associated with a picture and return its most dominant colors. 
