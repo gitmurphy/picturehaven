@@ -62,4 +62,17 @@ public class TagController {
         }
         return pictures;
     }
+
+    @GetMapping("/picturetags/{id}")
+    List<Tag> findTagsByPicture(@PathVariable Integer id) {
+        List<Integer> tagIds = pictureRepository.findTagsByPicture(id);
+        List<Tag> tags = new ArrayList<>();
+        for (Integer tagId : tagIds) {
+            Optional<Tag> optionalTag = tagRepository.findById(tagId);
+            if (optionalTag.isPresent()) {
+                tags.add(optionalTag.get());
+            }
+        }
+        return tags;
+    }
 }

@@ -1,18 +1,16 @@
 package dev.petermurphy.picturehaven.picture;
 
 import dev.petermurphy.picturehaven.service.PictureService;
-import dev.petermurphy.picturehaven.tag.Tag;
-import dev.petermurphy.picturehaven.tag.TagRepository;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -22,11 +20,9 @@ import java.util.Optional;
 public class PictureController {
 
 	private final PictureRepository pictureRepository;
-	private final TagRepository tagRepository;
 
-	public PictureController(PictureRepository pictureRepository, TagRepository tagRepository) {
+	public PictureController(PictureRepository pictureRepository) {
 		this.pictureRepository = pictureRepository;
-		this.tagRepository = tagRepository;
 	}
 
 	@ResponseStatus(HttpStatus.OK)
@@ -61,19 +57,6 @@ public class PictureController {
 	long count() {
 		return pictureRepository.count();
 	}
-	
-	@GetMapping("/tags/{id}")
-    List<Tag> findTagsByPicture(@PathVariable Integer id) {
-        List<Integer> tagIds = pictureRepository.findTagsByPicture(id);
-        List<Tag> tags = new ArrayList<>();
-        for (Integer tagId : tagIds) {
-            Optional<Tag> optionalTag = tagRepository.findById(tagId);
-            if (optionalTag.isPresent()) {
-                tags.add(optionalTag.get());
-            }
-        }
-        return tags;
-    }
 
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping("/{pictureId}/tags/{tagId}")
