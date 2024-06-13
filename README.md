@@ -34,6 +34,7 @@ The HTML elements associated with a Collection could be styled based on the coll
 * Spring Boot 3.3.0
 * Spring Data JDBC (for relational database access)
 * PostgreSQL (database)
+* Swagger (API documentation)
 
 ### Running the application
 1. Prerequisites:
@@ -55,6 +56,7 @@ The HTML elements associated with a Collection could be styled based on the coll
    * Use tools like Postman or curl to interact with the API endpoints.
 
 ### API Endpoints
+_Note: The API endpoints are documented using Swagger. To access the documentation, run the application and navigate to http://localhost:8080/swagger-ui.html in your browser._
 
 **Pictures:**
 
@@ -74,6 +76,10 @@ The HTML elements associated with a Collection could be styled based on the coll
 * PUT /api/artists/{id}: Updates an existing artist.
 * DELETE /api/artists/{id}: Deletes an artist.
 * GET /api/artists/count: Returns the total number of artists.
+* GET /api/artists/pictures/{id}: Get pictures associated with a specific artist.
+* DELETE /api/artists/pictures/{artistId}: Deletes all pictures by artist.
+* GET /api/artists/artistpictures/{id}: Get an artist with their pictures.
+* DELETE /api/artists/artistpictures/{id}: Deletes an artist with their pictures.
 
 **Tags:**
 
