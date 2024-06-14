@@ -23,53 +23,53 @@ public class ArtistController {
         this.pictureRepository = pictureRepository;
     }
 
-    @Tag(name = "get", description = "Retrieves a list of all artists.")
+    @Tag(name = "get")
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("")
     List<Artist> findAll() {
         return artistRepository.findAll();
     }
 
-    @Tag(name = "get", description = "Retrieves an artist by their ID.")
+    @Tag(name = "get")
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
     Optional<Artist> findById(@PathVariable Integer id) {
         return artistRepository.findById(id);
     }
 
-    @Tag(name = "post", description = "Creates a new artist.")
+    @Tag(name = "post")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
     void create(@Valid @RequestBody Artist artist) {
         artistRepository.create(artist);
     }
 
-    @Tag(name = "put", description = "Updates an existing artist.")
+    @Tag(name = "put")
     @PutMapping("/{id}")
     void update(@PathVariable Integer id, @Valid @RequestBody Artist artist) {
         artistRepository.update(artist, id);
     }
 
-    @Tag(name = "delete", description = "Deletes an artist.")
+    @Tag(name = "delete")
     @DeleteMapping("/{id}")
     void delete(@PathVariable Integer id) {
         artistRepository.delete(id);
     }
 
-    @Tag(name = "get", description = "Returns the total number of artists.")
+    @Tag(name = "get")
     @GetMapping("/count")
     long count() {
         return artistRepository.count();
     }
 
-    @Tag(name = "get", description = "Get pictures associated with a specific artist")
+    @Tag(name = "get")
     @GetMapping("/pictures/{id}")
     List<Picture> findPicturesByArtist(@PathVariable Integer id) {
         List<Picture> pictures = pictureRepository.findAllByArtist(id);
         return pictures;
     }
 
-    @Tag(name = "delete", description = "Deletes all pictures by artist.")
+    @Tag(name = "delete")
     @DeleteMapping("/pictures/{artistId}")
     void deletePicturesByArtist(@PathVariable Integer artistId) {
         List<Picture> pictures = pictureRepository.findAllByArtist(artistId);
@@ -78,7 +78,7 @@ public class ArtistController {
         }
     }
 
-    @Tag(name = "get", description = "Retrieves an artist with their pictures.")
+    @Tag(name = "get")
     @GetMapping("/artistpictures/{id}")
     ArtistPictures getArtistWithPictures(@PathVariable Integer id) {
         Optional<Artist> artist = artistRepository.findById(id);
@@ -86,7 +86,7 @@ public class ArtistController {
         return new ArtistPictures(artist, pictures);
     }
 
-    @Tag(name = "delete", description = "Deletes an artist with their pictures.")
+    @Tag(name = "delete")
     @DeleteMapping("/artistpictures/{id}")
     void deleteArtistAndPictures(@PathVariable Integer id) {
         List<Picture> pictures = pictureRepository.findAllByArtist(id);

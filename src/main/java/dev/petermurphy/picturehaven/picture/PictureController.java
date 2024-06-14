@@ -25,64 +25,64 @@ public class PictureController {
 		this.pictureRepository = pictureRepository;
 	}
 
-	@Tag(name = "get", description = "Retrieves a list of all pictures.")
+	@Tag(name = "get", description = "Get method endpoints for REST API.")
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping("")
 	List<Picture> findAll() {
 		return pictureRepository.findAll();
 	}
 	
-	@Tag(name = "get", description = "Retrieves a picture by its ID.")
+	@Tag(name = "get")
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping("/{id}")
 	Optional<Picture> findById(@PathVariable Integer id) {
 		return pictureRepository.findById(id);
 	}
 	
-	@Tag(name = "post", description = "Creates a new picture.")
+	@Tag(name = "post", description = "Post method endpoints for REST API.")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("")
     void create(@Valid @RequestBody Picture picture) {
         pictureRepository.create(picture);
     }
 
-	@Tag(name = "put", description = "Updates an existing picture.")
+	@Tag(name = "put", description = "Put method endpoints for REST API.")
 	@PutMapping("/{id}")
 	void update(@PathVariable Integer id, @Valid @RequestBody Picture picture) {
 		pictureRepository.update(picture, id);
 	}
 
-	@Tag(name = "delete", description = "Deletes a picture.")
+	@Tag(name = "delete", description = "Delete method endpoints for REST API.")
 	@DeleteMapping("/{id}")
 	void delete(@PathVariable Integer id) {
 		pictureRepository.delete(id);
 	}
 
-	@Tag(name = "get", description = "Returns the total number of pictures.")
+	@Tag(name = "get")
 	@GetMapping("/count")
 	long count() {
 		return pictureRepository.count();
 	}
 
-	@Tag(name = "post", description = "Add a tag to a picture.")
+	@Tag(name = "post")
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping("/{pictureId}/tags/{tagId}")
 	void addTagToPicture(@PathVariable Integer pictureId, @PathVariable Integer tagId) {
 		pictureRepository.addTagToPicture(pictureId, tagId);
 	}
 
-	@Tag(name = "get", description = "Analyzes the image file associated with a picture and returns its dominant colors.")
+	@Tag(name = "get")
 	@ResponseStatus(HttpStatus.OK)
-	@GetMapping("/colors/{id}")
-	Map<Color, Integer> getDominantColorsById(@PathVariable Integer id) throws IOException {
+	@GetMapping("/colors/{id}/{maxCount}")
+	Map<Color, Integer> getDominantColorsById(@PathVariable Integer id, @PathVariable Integer maxCount) throws IOException {
 		BufferedImage image = null;
 		String filePath = pictureRepository.findById(id).get().filepath();
 		try {
 			image = ImageIO.read(new File("src/main/java/dev/petermurphy/picturehaven/picture" + filePath));
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new IOException("Filepath not found for picture with id " + id, e);
 		}
-		return getDominantColors(image, 5);
+		return getDominantColors(image, maxCount);
 	}
 
 	Map<Color, Integer> getDominantColors(BufferedImage image, Integer maxCount) {
