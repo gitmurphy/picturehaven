@@ -66,7 +66,7 @@ _Note: The API endpoints are documented using Swagger. To access the documentati
 * PUT /api/pictures/{id}: Updates an existing picture.
 * DELETE /api/pictures/{id}: Deletes a picture.
 * GET /api/pictures/count: Returns the total number of pictures.
-* GET /api/pictures/colors/{id}: Analyzes the image file associated with a picture and returns its dominant colors.
+* GET /api/pictures/colors/{id}/{maxCount}: Analyzes the image file associated with a picture and returns its dominant colors.
 
 **Artists:**
 
@@ -96,7 +96,7 @@ _Note: The API endpoints are documented using Swagger. To access the documentati
 * GET /api/tags/picturetags/{id}: Get tags associated with a specific picture.
 
 ### Extracting Dominant Colors
-The /api/pictures/colors/{id} endpoint communicates with a feature to analyse an image file associated with a picture and return its most dominant colors. 
+The /api/pictures/colors/{id}/{maxCount} endpoint communicates with a feature to analyse an image file associated with a picture and return its most dominant colors. 
 This functionality is implemented in the PictureService class.
 
 **The service utilises a basic algorithm to achieve this:**
