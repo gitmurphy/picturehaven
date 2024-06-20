@@ -63,6 +63,12 @@ public class JdbcPictureRepository implements PictureRepository {
     public long count() {
         return jdbcClient.sql("SELECT * FROM pictures").query().listOfRows().size();
     }
+
+    public long countPerArtist(Integer artistId) {
+        return jdbcClient.sql("SELECT * FROM pictures WHERE artist = :artistId")
+                .param("artistId", artistId)
+                .query().listOfRows().size();
+    }
 	
 	public List<Integer> findTagsByPicture(Integer id) {
         return jdbcClient.sql("SELECT tag FROM picture_tags WHERE picture = :id")
