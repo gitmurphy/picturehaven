@@ -96,9 +96,11 @@ _Note: The API endpoints are documented using Swagger. To access the documentati
 * GET /api/tags/picturetags/{id}: Get tags associated with a specific picture.
 
 ### Extracting Dominant Colors
-The /api/pictures/colors/{id}/{maxCount} endpoint communicates with a feature to analyse an image file associated with a picture and return its most dominant colors. 
+The /api/pictures/colors/{id}/{maxCount}/{range} endpoint communicates with a feature to analyse an image file associated with a picture and return its most dominant colors. 
 This functionality is implemented in the PictureService class.
 
 **The service utilises a basic algorithm to achieve this:**
 1. Looping through Pixels: It iterates through each pixel of the image using a nested loop and keeps track of the color occurrences in a HashMap.
 2. Prioritizing Colors: It prioritizes the colours by their frequency using a PriorityQueue.
+3. Configurable Color Count: The {maxCount} parameter in the API request allows you to control the number of dominant colors returned.
+4. Color Selection Range: Specify a color range (0.01 - 1.0) using the {range} parameter in the API request. This allows grouping similar colors within the specified range.
