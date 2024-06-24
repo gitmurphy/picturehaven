@@ -2,6 +2,7 @@ package dev.petermurphy.picturehaven.picture;
 
 import dev.petermurphy.picturehaven.service.PictureService;
 import jakarta.validation.Valid;
+import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -73,8 +74,13 @@ public class PictureController {
 
 	@Tag(name = "get")
 	@ResponseStatus(HttpStatus.OK)
-	@GetMapping("/colors/{id}/{maxCount}")
-	Map<Color, Integer> getDominantColorsById(@PathVariable Integer id, @PathVariable Integer maxCount) throws IOException {
+	@GetMapping("/colors/{id}/{maxCount}/{range}")
+	Map<Color, Integer> getDominantColorsById(@PathVariable Integer id, @PathVariable Integer maxCount, @PathVariable double range) throws IOException {
+		// Validate range parameter
+		if (range <= 0.01 || range >= 1) {
+			throw new BadRequestException("Invalid color tolerance range. Must be between 0.01 and 1.");
+		}
+
 		BufferedImage image = null;
 		String filePath = pictureRepository.findById(id).get().filepath();
 		try {
@@ -82,10 +88,10 @@ public class PictureController {
 		} catch (IOException e) {
 			throw new IOException("Filepath not found for picture with id " + id, e);
 		}
-		return getDominantColors(image, maxCount);
+		return getDominantColors(image, maxCount, range);
 	}
 
-	Map<Color, Integer> getDominantColors(BufferedImage image, Integer maxCount) {
-		return PictureService.getDominantColors(image, maxCount);
+	Map<Color, Integer> getDominantColors(BufferedImage image, Integer maxCount, double range) {
+		return PictureService.getDominantColors(image, maxCount, range);
 	}
 }
