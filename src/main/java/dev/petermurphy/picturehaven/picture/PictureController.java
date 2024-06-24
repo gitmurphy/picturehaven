@@ -75,7 +75,7 @@ public class PictureController {
 	@Tag(name = "get")
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping("/colors/{id}/{maxCount}/{range}")
-	Map<Color, Integer> getDominantColorsById(@PathVariable Integer id, @PathVariable Integer maxCount, @PathVariable double range) throws IOException {
+	Map<String, Integer> getDominantColorsById(@PathVariable Integer id, @PathVariable Integer maxCount, @PathVariable double range) throws IOException {
 		// Validate range parameter
 		if (range <= 0.01 || range >= 1) {
 			throw new BadRequestException("Invalid color tolerance range. Must be between 0.01 and 1.");
@@ -91,7 +91,7 @@ public class PictureController {
 		return getDominantColors(image, maxCount, range);
 	}
 
-	Map<Color, Integer> getDominantColors(BufferedImage image, Integer maxCount, double range) {
+	Map<String, Integer> getDominantColors(BufferedImage image, Integer maxCount, double range) {
 		return PictureService.getDominantColors(image, maxCount, range);
 	}
 }
