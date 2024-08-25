@@ -30,8 +30,9 @@ public class JdbcArtistRepository implements ArtistRepository {
     }
 
     public void create(Artist artist) {
-        var updated = jdbcClient.sql("INSERT INTO artists(name) VALUES(?)")
-                .params(List.of(artist.name()))
+        System.out.println("Creating artist: " + artist);
+        var updated = jdbcClient.sql("INSERT INTO artists(name, bio, nationality) VALUES(?, ?, ?)")
+                .params(List.of(artist.name(), artist.bio(), artist.nationality()))
                 .update();
 
         Assert.state(updated == 1, "Failed to create run " + artist.name());
